@@ -13,7 +13,10 @@
 
 ## The AirQuality plots are intended for quick EDA. Since it is hard to visualize the data when plotting the full range of 
 ## observed values, only the bottom 70% of the range is shown, cutting off the few outliers in the top 30% of the range. 
-## The Outliers() function returns plots for those few, extremeobservations in the top 30% of the range.
+## The Outliers() function returns plots for those generally few, extreme observations in the top 30% of the range. 
+
+## Disclaimer: obviously whether they are statistical outliers or not depends on each county's data, these plots merely
+## attempt to identify broad aspects of the data sets.
 
 ## NOTE: The AirQuality and Outliers functions might not work for certain counties. 
 ## For example: Houston, TX (State.Code == 48 and County.Code == 225). (A quick inspection shows no county code 225 in the data.) 
