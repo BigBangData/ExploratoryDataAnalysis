@@ -25,19 +25,6 @@ plot(c(1999,2002,2005,2008), c(w,x,y,z), type="l", col = "firebrick", lwd = 1, y
 # 5. save plot to a PNG file in working directory
 dev.copy(png, file = "plot1.png", width = 600, height = 480) 
 dev.off()
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
  
  
