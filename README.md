@@ -1,6 +1,11 @@
 # ExploratoryDataAnalysis
 
-Repo containing work for 'Exploratory Data Analsysis' - course 4 in the Johns Hopkins University 'Data Science' Specialization
+Repository containing the second course project for 'Exploratory Data Analsysis' - course 4 in the Johns Hopkins University's 'Data Science' Specialization in Coursera. 
 
-After class, I thought it would be fun to locate air pollution monitors in my town and look at fine particulate matter (pm2.5) emissions in the last decade, to see whether it was bad, and whether it has gone down. Curious about other counties, I started repeating my work, and realized I could create a function to do all this quickly. This is how AirQuality() came to be.
+
+## Air Quality Function:
+
+After the course, I decided to look at pm2.5 emissions all over the country (U.S.), so I created a function which does that job quickly. For a given county, AirQuality() spits out 4 plots covering the last decade of emissions monitoring of fine particulate matter. 
+
+
 
