@@ -69,20 +69,3 @@ ggplot(final_data, aes(year, log2(count))) +
 # 11. create PNG file of appropriate dimensions to visualize data 
 dev.copy(png, file = "plot4.png", width = 840, height = 480)
 dev.off()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
