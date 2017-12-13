@@ -71,10 +71,16 @@ AirQuality <- function(state, county) {
 	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); e",i," <<- pm",i,"sub$Arithmetic.Mean", sep="")))	
 	
 	# create vector naming county and state 
-	name <<- paste(pm1sub[1,6],",",pm1sub[1,5])
+	name <<- paste(pm1sub[1, 6],",",pm1sub[1, 5])
 	
-	# plot and save png file to working directory 
-	png(file = paste(name,"- AirQuality.png"), width = 1100, height = 480)
+	# set up an AirQualityPlots folder
+	output_dir <- file.path("./AirQualityPlots")
+	if (!dir.exists(output_dir)) {
+		dir.create(output_dir)
+	} 
+	
+	# plot PNG to this folder
+	png(file = paste("./AirQualityPlots/",name," - AirQuality.png", sep=""), width = 1100, height = 480)
 	R <- range(e1, e2, e3, e4) 
 	par(mfrow = c(1, 4), mar = c(4, 5, 4, 1))
 
@@ -111,40 +117,50 @@ AirQuality <- function(state, county) {
 
 
 Outliers <- function(state, county) {
+	
 	# subset, prep variables
 	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code == state & County.Code == county)", sep="")))
 	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); e",i," <<- pm",i,"sub$Arithmetic.Mean", sep="")))	
-	name <<- paste(pm1sub[1,6],",",pm1sub[1,5])
-	# plotting
-	png(file = paste(name,"- AirQualityOutliers.png"), width = 1100, height = 480)
+		name <<- paste(pm1sub[1,6],",",pm1sub[1,5])
+	
+	# set up an AirQualityPlots folder
+	output_dir <- file.path("./AirQualityPlots")
+	if (!dir.exists(output_dir)) {
+		dir.create(output_dir)
+	} 
+	
+	# plot PNG to this folder
+	png(file = paste("./AirQualityPlots/",name," - AirQualityOutliers.png", sep=""), width = 1100, height = 480)
 	R <- range(e1, e2, e3, e4) 
 	par(mfrow = c(1, 4), mar = c(4, 5, 4, 1))
+	
 	# 2007
 	plot(d1, e1, ylim = c(max(R*0.7), max(R)), ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", xlab = "2007", type = "n")
 	abline(h = median(e1), col = "black", lwd = 2)
 	points(d1[which(e1 > 12)], e1[which(e1 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
 	points(d1[which(e1 < 12)], e1[which(e1 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	
 	# 2010
 	plot(d2, e2, ylim = c(max(R*0.7), max(R)), ylab = "", xlab = "2010", type = "n")
 	abline(h = median(e2), col = "black", lwd = 2)
 	points(d2[which(e2 > 12)], e2[which(e2 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
 	points(d2[which(e2 < 12)], e2[which(e2 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	
 	# 2013
 	plot(d3, e3, ylim = c(max(R*0.7), max(R)), ylab = "", xlab = "2013", type = "n")
 	abline(h = median(e3), col = "black", lwd = 2)
 	points(d3[which(e3 > 12)], e3[which(e3 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
 	points(d3[which(e3 < 12)], e3[which(e3 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	
 	# 2016
 	plot(d4, e4, ylim = c(max(R*0.7), max(R)), ylab = "", xlab = "2016", type = "n")
 	abline(h = median(e4), col = "black", lwd = 2)
 	points(d4[which(e4 > 12)], e4[which(e4 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
 	points(d4[which(e4 < 12)], e4[which(e4 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
 	legend("topright", "Failed National Standard", pch = 19, col = rgb(1, 0, 0, alpha = 0.4))
-    # save PNG
+    	
+	# title and legend
 	par(mfrow = c(1, 1))
 	title(paste(name, "- Air Pollution, Extreme Observations"))
 	dev.off()
 }
-
-
-
