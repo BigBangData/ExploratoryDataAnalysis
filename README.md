@@ -1,6 +1,6 @@
 # ExploratoryDataAnalysis
 
-Repository containing the second course project for 'Exploratory Data Analsysis' - course 4 in the Johns Hopkins University's 'Data Science' Specialization in Coursera. 
+Repository containing the second course project for [Course 4: 'Exploratory Data Analsysis'](https://www.coursera.org/learn/exploratory-data-analysis), in the 'Data Science Specialization' from Johns Hopkins University (Coursera).
 
 
 ## Air Quality Function:
