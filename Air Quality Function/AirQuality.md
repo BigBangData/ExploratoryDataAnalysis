@@ -20,10 +20,10 @@ The **AirQuality()** and **Outliers()** functions aim to speed up exploratory da
 - The **Outliers()** function returns plots for those extreme observations in the top 30% of the range. Since the data varies depending on the county, this partitioning of the range is ad hoc and does not represent any method of statistical analysis of outlying observations -- this is just a gross estimate intended for a broad, quick look at the data.
 
 
-NOTE: **AirQuality()** and **Outliers()** do not work for all counties. For example: Houston, TX *(State.Code == 48 and County.Code == 225)* spits out an error message, as no county code 225 is present. A fix to this bug is welcome.
+NOTE: 
+**AirQuality()** and **Outliers()** do not work for all counties. For example: Houston, TX *(State.Code == 48 and County.Code == 225)* spits out an error message, as no county code 225 is present. A fix to this bug is welcome.
 
-CREDITS: I wrote this function after completing [Course 4: 'Exploratory Data Analsysis'](https://www.coursera.org/learn/exploratory-data-analysis), in the 'Data Science Specialization' from Johns Hopkins University (Coursera).
-
+CREDITS: 
 The coding was inspired by Roger Peng's [Air Pollution Case Study](https://github.com/DataScienceSpecialization/courses/tree/master/04_ExploratoryAnalysis/CaseStudy) in week 4 of the course. Credit also goes to data analyst Alan Gao for the nifty trick of evaluating parsed text in 'for' loops.
 
 ---

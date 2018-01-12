@@ -1,4 +1,4 @@
-# Load all functions at once
+# Load all functions at once with source("./AirQuality.r") 
 
 Load <- function() {
 

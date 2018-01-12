@@ -1,6 +1,6 @@
 # Exploratory Data Analysis - Additional Materials
 
-This is a repo containing work related to EDA work. I created it after taking [Course 4: 'Exploratory Data Analsysis'](https://www.coursera.org/learn/exploratory-data-analysis), in the 'Data Science Specialization' from Johns Hopkins University (Coursera).
+This is a repo containing work related to exploratory data analysis. I created it after taking [Course 4: 'Exploratory Data Analsysis'](https://www.coursera.org/learn/exploratory-data-analysis), in the 'Data Science Specialization' from Johns Hopkins University (Coursera).
 
 ---
 
