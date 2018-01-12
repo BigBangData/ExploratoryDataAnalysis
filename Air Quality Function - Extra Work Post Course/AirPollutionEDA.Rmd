@@ -11,7 +11,7 @@ output:
 
 The **AirQuality()** and **Outliers()** functions aim to speed up exploratory data analysis of air pollution. They could serve as a reproducible template that can be adapted for various needs (i.e. by changing the years and data one wishes to consider). Please feel free to fork and send pull requests.
 
-- The **Load()**function downloads and unzips four data sets of PM<sub>2.5</sub> observations from the EPA.gov website, for years 2007, 2010, 2013, and 2016, aiming to quickly cover a decade of observations. These files are renamed **pm1** through **pm4**, for easier reference. The function only needs to be called once, loading these data files in the working directory.
+- The **Load()** function downloads and unzips four data sets of PM<sub>2.5</sub> observations from the EPA.gov website, for years 2007, 2010, 2013, and 2016, aiming to quickly cover a decade of observations. These files are renamed **pm1** through **pm4**, for easier reference. The function only needs to be called once, loading these data files in the working directory.
 
 - The **Prep()** function cleans the data, preparing it for analysis with the main EDA functions.
 
