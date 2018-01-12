@@ -3,10 +3,10 @@
 Load <- function() {
 
 	# download data
-	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2007.zip", destfile = "./data07.zip")
-	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2010.zip", destfile = "./data10.zip")
-	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2013.zip", destfile = "./data13.zip")
-	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2016.zip", destfile = "./data16.zip")
+	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2007.zip", destfile = "./data07.zip")
+	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2010.zip", destfile = "./data10.zip")
+	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2013.zip", destfile = "./data13.zip")
+	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2016.zip", destfile = "./data16.zip")
 	
 	# unzip files
 	sapply(list.files(pattern=".zip", full.names = TRUE), unzip)

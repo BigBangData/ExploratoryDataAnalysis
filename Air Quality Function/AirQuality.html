@@ -130,7 +130,7 @@ $(document).ready(function () {
 <h2>Overview</h2>
 <p>The <strong>AirQuality()</strong> and <strong>Outliers()</strong> functions aim to speed up exploratory data analysis of air pollution. They could serve as a reproducible template that can be adapted for various needs (i.e. by changing the years and data one wishes to consider). Please feel free to fork and send pull requests.</p>
 <ul>
-<li><p>The <strong>Load()</strong>function downloads and unzips four data sets of PM<sub>2.5</sub> observations from the EPA.gov website, for years 2007, 2010, 2013, and 2016, aiming to quickly cover a decade of observations. These files are renamed <strong>pm1</strong> through <strong>pm4</strong>, for easier reference. The function only needs to be called once, loading these data files in the working directory.</p></li>
+<li><p>The <strong>Load()</strong> function downloads and unzips four data sets of PM<sub>2.5</sub> observations from the EPA.gov website, for years 2007, 2010, 2013, and 2016, aiming to quickly cover a decade of observations. These files are renamed <strong>pm1</strong> through <strong>pm4</strong>, for easier reference. The function only needs to be called once, loading these data files in the working directory.</p></li>
 <li><p>The <strong>Prep()</strong> function cleans the data, preparing it for analysis with the main EDA functions.</p></li>
 <li><p>The <strong>AirQuality()</strong> function returns, for a given U.S. county, four scatter plots of PM<sub>2.5</sub> emissions, one per year. Years can be changed by adapting the <strong>Load()</strong> function to one’s needs. The two arguments, <strong>state</strong> and <strong>county</strong> (codes), are provided by the user. Codes can be found at <a href="https://aqs.epa.gov/aqsweb/documents/codetables/states_and_counties.html">this EPA site</a>. Since the AirQuality plots are intended for quick EDA, and it is hard to get a good sense of the observations when plotting the full range of values, only the bottom 70% of the range is shown.</p></li>
 <li><p>The <strong>Outliers()</strong> function returns plots for those extreme observations in the top 30% of the range. Since the data varies depending on the county, this partitioning of the range is ad hoc and does not represent any method of statistical analysis of outlying observations – this is just a gross estimate intended for a broad, quick look at the data.</p></li>
@@ -145,13 +145,13 @@ $(document).ready(function () {
 <pre class="r"><code>Load &lt;- function() {
 
     # download data
-    download.file(&quot;http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2007.zip&quot;, 
+    download.file(&quot;https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2007.zip&quot;, 
                   destfile = &quot;./data07.zip&quot;)
-    download.file(&quot;http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2010.zip&quot;, 
+    download.file(&quot;https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2010.zip&quot;, 
                   destfile = &quot;./data10.zip&quot;)
-    download.file(&quot;http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2013.zip&quot;, 
+    download.file(&quot;https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2013.zip&quot;, 
                   destfile = &quot;./data13.zip&quot;)
-    download.file(&quot;http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2016.zip&quot;, 
+    download.file(&quot;https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2016.zip&quot;, 
                   destfile = &quot;./data16.zip&quot;)
     
     # unzip files
