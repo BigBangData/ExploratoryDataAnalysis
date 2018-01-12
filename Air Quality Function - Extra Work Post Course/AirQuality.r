@@ -1,31 +1,4 @@
-## The following four functions load, prepare, and execute summary statistics plots on air pollution data from the EPA.gov site.
-## Feel free to suggest improvements, fork the repo and adapt them to your own needs.
-
-## The Load() function downloads the data, unzips the folders and renames files for easier reference (pm1 through pm4).
-## The four data sets consist of pm2.5 emissions measurements for the entire U.S. for the years 2007, 2010, 2013 and 2016.
-## This function stores these data sets into the working directory for future use, and only need to be called once.
-
-## The Prep() function is a preparatory function for the main EDA function, reading in the data and prepping it for analysis.
-
-## The AirQuality() function returns, for a given county, four scatterplots of pm2.5 emissions, one for each year observed. 
-## The two arguments, state and county codes, are provided by the user. Codes can be found at: 
-## https://aqs.epa.gov/aqsweb/documents/codetables/states_and_counties.html 
-
-## The AirQuality plots are intended for quick EDA. Since it is hard to visualize the data when plotting the full range of 
-## observed values, only the bottom 70% of the range is shown, cutting off the few outliers in the top 30% of the range. 
-## The Outliers() function returns plots for those generally few, extreme observations in the top 30% of the range. 
-
-## Disclaimer: obviously whether they are statistical outliers or not depends on each county's data, these plots merely
-## attempt to identify broad aspects of the data sets.
-
-## NOTE: The AirQuality and Outliers functions might not work for certain counties. 
-## For example: Houston, TX (State.Code == 48 and County.Code == 225). (A quick inspection shows no county code 225 in the data.) 
-
-## CREDITS: I wrote this function after completing 'Exploratory Data Analysis,' Course 4 in the Johns Hopkins University 
-## 'Data Science' Specialization in Coursera. 
-## The coding was inspired by Roger Peng's "Air Pollution Case Study" lesson in week 4 of the course. 
-## Credit also goes to data analyst Alan Gao for the nifty trick of evaluating parsed text in 'for' loops.
-
+# Load all functions at once
 
 Load <- function() {
 

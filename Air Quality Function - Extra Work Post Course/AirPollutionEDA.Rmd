@@ -1,0 +1,208 @@
+---
+title: "Air Pollution Exploratory Data Analysis"
+author: "Marcelo Sanches"
+date: "January 11, 2018"
+output: 
+ html_document: 
+    keep_md: yes
+---
+
+## Overview
+
+The **AirQuality()** and **Outliers()** functions aim to speed up exploratory data analysis of air pollution. They could serve as a reproducible template that can be adapted for various needs (i.e. by changing the years and data one wishes to consider). Please feel free to fork and send pull requests.
+
+- The **Load()**function downloads and unzips four data sets of PM<sub>2.5</sub> observations from the EPA.gov website, for years 2007, 2010, 2013, and 2016, aiming to quickly cover a decade of observations. These files are renamed **pm1** through **pm4**, for easier reference. The function only needs to be called once, loading these data files in the working directory.
+
+- The **Prep()** function cleans the data, preparing it for analysis with the main EDA functions.
+
+- The **AirQuality()** function returns, for a given U.S. county, four scatter plots of PM<sub>2.5</sub> emissions, one per year. Years can be changed by adapting the **Load()** function to one's needs. The two arguments, **state** and **county** (codes), are provided by the user. Codes can be found at [this EPA site](https://aqs.epa.gov/aqsweb/documents/codetables/states_and_counties.html). Since the AirQuality plots are intended for quick EDA, and it is hard to get a good sense of the observations when plotting the full range of values, only the bottom 70% of the range is shown. 
+
+- The **Outliers()** function returns plots for those extreme observations in the top 30% of the range. Since the data varies depending on the county, this partitioning of the range is ad hoc and does not represent any method of statistical analysis of outlying observations -- this is just a gross estimate intended for a broad, quick look at the data.
+
+
+NOTE: **AirQuality()** and **Outliers()** do not work for all counties. For example: Houston, TX *(State.Code == 48 and County.Code == 225)* spits out an error message, as no county code 225 is present. A fix to this bug is welcome.
+
+CREDITS: I wrote this function after completing [Course 4: 'Exploratory Data Analsysis'](https://www.coursera.org/learn/exploratory-data-analysis), in the 'Data Science Specialization' from Johns Hopkins University (Coursera).
+
+The coding was inspired by Roger Peng's [Air Pollution Case Study](https://github.com/DataScienceSpecialization/courses/tree/master/04_ExploratoryAnalysis/CaseStudy) in week 4 of the course. Credit also goes to data analyst Alan Gao for the nifty trick of evaluating parsed text in 'for' loops.
+
+---
+
+## Load Data
+
+```{r}
+
+Load <- function() {
+
+	# download data
+	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2007.zip", 
+	              destfile = "./data07.zip")
+	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2010.zip", 
+	              destfile = "./data10.zip")
+	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2013.zip", 
+	              destfile = "./data13.zip")
+	download.file("http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2016.zip", 
+	              destfile = "./data16.zip")
+	
+	# unzip files
+	sapply(list.files(pattern=".zip", full.names = TRUE), unzip)
+	
+	# rename files 
+	file.rename(list.files(pattern="*.csv"), paste0("pm", 1:4))
+}
+	
+```
+
+## Prep Data 
+
+```{r}
+	
+Prep <- function() {	
+
+	# read in files 
+	files <<- list.files(pattern="pm")  
+	for (i in 1:4) assign(files[i], read.csv(files[i]), .GlobalEnv) 
+	
+	# subset appropriate variables  
+	for (i in 1:4) {
+		eval(parse(text = paste("pm", i, " <<- 
+		                         pm", i, "[,c(1,2,12,17,25,26)]", sep = ""))) 
+	}
+	# create vectors of negative values in Arithmetic.Mean 
+	for (i in 1:4) {
+		eval(parse(text = paste("neg", i, " <<- ", 
+		                        "which(pm", i, "$Arithmetic.Mean < 0)", sep = "")))
+	}
+	# remove negative values from Arithmetic.Mean
+	for (i in 1:4) {																						
+		if (length(eval(parse(text = paste("neg",i,sep="")))) != 0) {  	
+			eval(parse(text = paste("pm",i," <<- pm",i,"[-neg",i,", ]", sep="")))
+		}
+	}
+}
+  
+```
+
+## Main EDA: AirQuality
+
+```{r}
+
+AirQuality <- function(state, county) {
+
+	# subset by chosen state and county 
+	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code 
+	                                       == state & County.Code == county)", sep="")))
+
+	# create vectors of dates d1 to d4 and of emissions e1 to e4
+	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); 
+	                                       e",i," <<- pm",i,"sub$Arithmetic.Mean", sep="")))	
+	
+	# create vector naming county and state 
+	name <<- paste(pm1sub[1, 6],",",pm1sub[1, 5])
+	
+	# set up an AirQualityPlots folder
+	output_dir <- file.path("./AirQualityPlots")
+	if (!dir.exists(output_dir)) {
+		dir.create(output_dir)
+	} 
+	
+	# plot PNG to this folder
+	png(file = paste("./AirQualityPlots/",name," - AirQuality.png", sep=""), 
+	                                                            width = 1100, height = 480)
+	R <- range(e1, e2, e3, e4) 
+	par(mfrow = c(1, 4), mar = c(4, 5, 4, 1))
+
+	# 2007
+	plot(d1, e1, ylim = R*0.7, 
+	             ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", 
+	             xlab = "2007", type = "n")
+	abline(h = median(e1), col = "black", lwd = 2)
+	points(d1[which(e1 > 12)], e1[which(e1 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d1[which(e1 < 12)], e1[which(e1 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+
+	# 2010
+	plot(d2, e2, ylim = R*0.7, ylab = "", xlab = "2010", type = "n")
+	abline(h = median(e2), col = "black", lwd = 2)
+	points(d2[which(e2 > 12)], e2[which(e2 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d2[which(e2 < 12)], e2[which(e2 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+
+	# 2013
+	plot(d3, e3, ylim = R*0.7, ylab = "", xlab = "2013", type = "n")
+	abline(h = median(e3), col = "black", lwd = 2)
+	points(d3[which(e3 > 12)], e3[which(e3 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d3[which(e3 < 12)], e3[which(e3 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+
+	# 2016
+	plot(d4, e4, ylim = R*0.7, ylab = "", xlab = "2016", type = "n")
+	abline(h = median(e4), col = "black", lwd = 2)
+	points(d4[which(e4 > 12)], e4[which(e4 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d4[which(e4 < 12)], e4[which(e4 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	legend("topright", "Failed National Standard", pch = 19, col = rgb(1, 0, 0, alpha = 0.4))
+
+	# title and legend 
+    	par(mfrow = c(1, 1))
+	title(paste(name, "- Air Pollution Monitor Measurements"))
+	dev.off()
+}
+
+```
+
+## Secondary EDA: Outliers
+
+```{r}
+
+Outliers <- function(state, county) {
+	
+	# subset, prep variables
+	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code == 
+	                                        state & County.Code == county)", sep="")))
+	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); 
+                                            e",i," <<- pm",i,"sub$Arithmetic.Mean", sep="")))	
+		name <<- paste(pm1sub[1,6],",",pm1sub[1,5])
+	
+	# set up an AirQualityPlots folder
+	output_dir <- file.path("./AirQualityPlots")
+	if (!dir.exists(output_dir)) {
+		dir.create(output_dir)
+	} 
+	
+	# plot PNG to this folder
+	png(file = paste("./AirQualityPlots/",name," - AirQualityOutliers.png", sep=""), 
+	                                                    width = 1100, height = 480)
+	R <- range(e1, e2, e3, e4) 
+	par(mfrow = c(1, 4), mar = c(4, 5, 4, 1))
+	
+	# 2007
+	plot(d1, e1, ylim = c(max(R*0.7), max(R)), 
+	             ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", 
+	             xlab = "2007", type = "n")
+	abline(h = median(e1), col = "black", lwd = 2)
+	points(d1[which(e1 > 12)], e1[which(e1 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d1[which(e1 < 12)], e1[which(e1 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	
+	# 2010
+	plot(d2, e2, ylim = c(max(R*0.7), max(R)), ylab = "", xlab = "2010", type = "n")
+	abline(h = median(e2), col = "black", lwd = 2)
+	points(d2[which(e2 > 12)], e2[which(e2 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d2[which(e2 < 12)], e2[which(e2 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	
+	# 2013
+	plot(d3, e3, ylim = c(max(R*0.7), max(R)), ylab = "", xlab = "2013", type = "n")
+	abline(h = median(e3), col = "black", lwd = 2)
+	points(d3[which(e3 > 12)], e3[which(e3 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d3[which(e3 < 12)], e3[which(e3 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	
+	# 2016
+	plot(d4, e4, ylim = c(max(R*0.7), max(R)), ylab = "", xlab = "2016", type = "n")
+	abline(h = median(e4), col = "black", lwd = 2)
+	points(d4[which(e4 > 12)], e4[which(e4 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
+	points(d4[which(e4 < 12)], e4[which(e4 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
+	legend("topright", "Failed National Standard", pch = 19, col = rgb(1, 0, 0, alpha = 0.4))
+    	
+	# title and legend
+	par(mfrow = c(1, 1))
+	title(paste(name, "- Air Pollution, Extreme Observations"))
+	dev.off()
+}
+```
+
