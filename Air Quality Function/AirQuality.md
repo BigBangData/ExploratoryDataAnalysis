@@ -20,11 +20,9 @@ The **AirQuality()** and **Outliers()** functions aim to speed up exploratory da
 - The **Outliers()** function returns plots for those extreme observations in the top 30% of the range. Since the data varies depending on the county, this partitioning of the range is ad hoc and does not represent any method of statistical analysis of outlying observations -- this is just a gross estimate intended for a broad, quick look at the data.
 
 
-NOTE: 
-**AirQuality()** and **Outliers()** do not work for all counties. For example: Houston, TX *(State.Code == 48 and County.Code == 225)* spits out an error message, as no county code 225 is present. A fix to this bug is welcome.
+NOTE: **AirQuality()** and **Outliers()** do not work for all counties. For example: Houston, TX *(State.Code == 48 and County.Code == 225)* spits out an error message, as no county code 225 is present. A fix to this bug is welcome.
 
-CREDITS: 
-The coding was inspired by Roger Peng's [Air Pollution Case Study](https://github.com/DataScienceSpecialization/courses/tree/master/04_ExploratoryAnalysis/CaseStudy) in week 4 of the course. Credit also goes to data analyst Alan Gao for the nifty trick of evaluating parsed text in 'for' loops.
+CREDITS: The coding was inspired by Roger Peng's [Air Pollution Case Study](https://github.com/DataScienceSpecialization/courses/tree/master/04_ExploratoryAnalysis/CaseStudy) in week 4 of the course. Credit also goes to data analyst Alan Gao for the nifty trick of evaluating parsed text in 'for' loops.
 
 ---
 
@@ -35,14 +33,10 @@ The coding was inspired by Roger Peng's [Air Pollution Case Study](https://githu
 Load <- function() {
 
 	# download data
-	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2007.zip", 
-	              destfile = "./data07.zip")
-	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2010.zip", 
-	              destfile = "./data10.zip")
-	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2013.zip", 
-	              destfile = "./data13.zip")
-	download.file("https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2016.zip", 
-	              destfile = "./data16.zip")
+	download.file("https://aqs.epa.gov/aqsweb/airdata/daily_88101_2007.zip", destfile = "./data07.zip")
+	download.file("https://aqs.epa.gov/aqsweb/airdata/daily_88101_2010.zip", destfile = "./data10.zip")
+	download.file("https://aqs.epa.gov/aqsweb/airdata/daily_88101_2013.zip", destfile = "./data13.zip")
+	download.file("https://aqs.epa.gov/aqsweb/airdata/daily_88101_2016.zip", destfile = "./data16.zip")
 	
 	# unzip files
 	sapply(list.files(pattern=".zip", full.names = TRUE), unzip)
