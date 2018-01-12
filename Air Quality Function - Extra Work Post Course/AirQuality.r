@@ -42,10 +42,12 @@ Prep <- function() {
 AirQuality <- function(state, county) {
 
 	# subset by chosen state and county 
-	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code == state & County.Code == county)", sep="")))
+	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code == state & 
+									County.Code == county)", sep="")))
 
 	# create vectors of dates d1 to d4 and of emissions e1 to e4
-	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); e",i," <<- pm",i,"sub$Arithmetic.Mean", sep="")))	
+	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); e",i," <<- 
+								   pm",i,"sub$Arithmetic.Mean", sep="")))	
 	
 	# create vector naming county and state 
 	name <<- paste(pm1sub[1, 6],",",pm1sub[1, 5])
@@ -62,7 +64,9 @@ AirQuality <- function(state, county) {
 	par(mfrow = c(1, 4), mar = c(4, 5, 4, 1))
 
 	# 2007
-	plot(d1, e1, ylim = R*0.7, ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", xlab = "2007", type = "n")
+	plot(d1, e1, ylim = R*0.7, 
+	     	     ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", 
+	     	     xlab = "2007", type = "n")
 	abline(h = median(e1), col = "black", lwd = 2)
 	points(d1[which(e1 > 12)], e1[which(e1 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
 	points(d1[which(e1 < 12)], e1[which(e1 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
@@ -96,8 +100,10 @@ AirQuality <- function(state, county) {
 Outliers <- function(state, county) {
 	
 	# subset, prep variables
-	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code == state & County.Code == county)", sep="")))
-	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); e",i," <<- pm",i,"sub$Arithmetic.Mean", sep="")))	
+	for (i in 1:4) eval(parse(text = paste("pm",i,"sub <<- subset(pm",i,", State.Code == state & 
+							            County.Code == county)", sep="")))
+	for (i in 1:4) eval(parse(text = paste("d",i," <<- as.Date(pm",i,"sub$Date.Local); e",i," <<- 
+								   pm",i,"sub$Arithmetic.Mean", sep="")))	
 		name <<- paste(pm1sub[1,6],",",pm1sub[1,5])
 	
 	# set up an AirQualityPlots folder
@@ -112,7 +118,9 @@ Outliers <- function(state, county) {
 	par(mfrow = c(1, 4), mar = c(4, 5, 4, 1))
 	
 	# 2007
-	plot(d1, e1, ylim = c(max(R*0.7), max(R)), ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", xlab = "2007", type = "n")
+	plot(d1, e1, ylim = c(max(R*0.7), max(R)), 
+	     	     ylab = ~PM[2.5]~"EMISSIONS (in micrograms per cubic meter)", 
+	     	     xlab = "2007", type = "n")
 	abline(h = median(e1), col = "black", lwd = 2)
 	points(d1[which(e1 > 12)], e1[which(e1 > 12)], col = rgb(1, 0, 0, alpha = 0.3), pch = 19)
 	points(d1[which(e1 < 12)], e1[which(e1 < 12)], col = rgb(0, 0, 1, alpha = 0.3), pch = 19)
